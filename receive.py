@@ -1,13 +1,14 @@
 import pika, sys, os
 
+from rabbitmq import get_rabbitmq_connection
+
 
 def callback(ch, method, properties, body):
     print(f" [x] Received {body}")
 
 
 def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
+    connection, channel = get_rabbitmq_connection()
 
     channel.queue_declare(queue='hello')
 
